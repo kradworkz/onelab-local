@@ -68663,8 +68663,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "float-right" }, [
-      _vm._m(0),
-      _vm._v(" "),
       _vm.status == "Pending"
         ? _c(
             "button",
@@ -68674,7 +68672,15 @@ var render = function() {
             },
             [_vm._v(" + Add Sample")]
           )
-        : _vm._e()
+        : _c(
+            "a",
+            {
+              staticClass:
+                "btn btn-sm btn-warning waves-effect waves-light mr-1",
+              attrs: { href: "javascript:window.print()" }
+            },
+            [_c("i", { staticClass: "bx bxs-printer" })]
+          )
     ]),
     _vm._v(" "),
     _c("h4", { staticClass: "card-title text-info mb-4" }, [
@@ -68769,7 +68775,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", { staticClass: "text-center" }, [
                   _c("div", { staticClass: "dropdown" }, [
-                    _vm._m(1, true),
+                    _vm._m(0, true),
                     _vm._v(" "),
                     _c(
                       "ul",
@@ -68784,7 +68790,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._m(2, true)]
+                          [_vm._m(1, true)]
                         ),
                         _vm._v(" "),
                         _vm.status == "Pending"
@@ -68797,7 +68803,7 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._m(3, true)]
+                              [_vm._m(2, true)]
                             )
                           : _vm._e(),
                         _vm._v(" "),
@@ -68811,7 +68817,7 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._m(4, true)]
+                              [_vm._m(3, true)]
                             )
                           : _vm._e()
                       ]
@@ -69147,7 +69153,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(5),
+              _vm._m(4),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "col-md-12" }, [
@@ -69197,7 +69203,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(6)
+              _vm._m(5)
             ])
           ]
         )
@@ -69206,19 +69212,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "btn btn-sm btn-warning waves-effect waves-light mr-1",
-        attrs: { href: "javascript:window.print()" }
-      },
-      [_c("i", { staticClass: "bx bxs-printer" })]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="float-right">
-            <a href="javascript:window.print()" class="btn btn-sm btn-warning waves-effect waves-light mr-1"><i class="bx bxs-printer"></i></a>
             <button v-if="status == 'Pending'" @click="addsample" class="btn btn-primary waves-effect waves-light btn-sm"> + Add Sample</button>
+            <a v-else href="javascript:window.print()" class="btn btn-sm btn-warning waves-effect waves-light mr-1"><i class="bx bxs-printer"></i></a>
         </div>
         <h4 class="card-title text-info mb-4">My Samples</h4>
 

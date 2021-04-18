@@ -21,7 +21,7 @@ class CreateReferralAnalysesTable extends Migration
             $table->boolean('is_package')->default('1'); 
             $table->boolean('is_view')->default('1'); 
             $table->bigInteger('sample_id')->unsigned()->index();
-            $table->foreign('sample_id')->references('id')->on('request_samples')->onDelete('cascade');
+            $table->foreign('sample_id')->references('id')->on('referral_samples')->onDelete('cascade');
             $table->smallInteger('testservice_id')->nullable()->unsigned()->index();
             $table->foreign('testservice_id')->references('id')->on('list_test_services')->onDelete('cascade');
             $table->smallInteger('package_id')->nullable()->unsigned()->index();
