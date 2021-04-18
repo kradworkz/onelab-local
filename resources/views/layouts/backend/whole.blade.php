@@ -29,7 +29,7 @@
                     @include('layouts.backend.footer')
                 </div>
             </div>
-
+            @include('layouts.backend.login')
             @include('layouts.backend.rightbar')
 
             <div class="rightbar-overlay"></div>

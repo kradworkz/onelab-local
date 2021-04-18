@@ -24,6 +24,7 @@ Vue.use(VueApexCharts)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('login', require('./components/Login.vue').default);
 Vue.component('password', require('./components/Password.vue').default);
 
 Vue.component('users', require('./components/admin/User.vue').default);
@@ -79,38 +80,17 @@ const app = new Vue({
             })
            .catch(error => {
                 if (error.response.status == 401) {
-                    this.$refs.apiconnection.check(false);
+                    $("#loginapi").modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                        show: true
+                    });
                 }
             });
         },
 
-        loginapi(){
-            axios.post('https://one.main/api/login', {
-                email: this.email,
-                password: this.password,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if(response.data.status_code == 200){
-                    Vue.$toast.success('<strong>Login Successful!</strong>', {
-                        position: 'bottom-left'
-                    });
-                    localStorage.setItem('api_token', response.data.access_token);
-                    // let toks = localStorage.getItem('api_token');
-                    this.referral = false;
-                }else{
-                    Vue.$toast.error('<strong>'+response.data.message +'</strong>', {
-                        position: 'bottom-left'
-                    });
-                }
-            })
-            .catch(error => {
-                if (error.response.status == 422) {
-                    this.errors = error.response.data.errors;
-                }
-            });
+        check(boolean){
+            this.$refs.apiconnection.check(boolean);
         }
     }
 });

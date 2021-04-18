@@ -157,54 +157,6 @@
                 </div>
             </div>
         </div>
-
-        <div v-else>
-            <div class="row justify-content-center">
-                    <div class="col-md-6 col-lg-6 ">
-                        <div class="card overflow-hidden">
-                            <div class="bg-soft-primary">
-                                <div class="row">
-                                    <div class="col-7">
-                                        <div class="text-primary p-4">
-                                            <h5 class="text-primary">Login</h5>
-                                            <p>Enter your password to access Api!</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body pt-0"> 
-                              
-                                <div class="p-2 mt-4">
-                                    <form class="form-horizontal" @submit.prevent="loginapi">
-
-                                        <div class="form-group">
-                                            <label for="userpassword">Email</label>
-                                            <input type="text" class="form-control" v-model="email" placeholder="Enter email">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="userpassword">Password</label>
-                                            <input type="password" class="form-control" v-model="password" placeholder="Enter password">
-                                        </div>
-            
-                                        <div class="form-group row mb-0">
-                                            <div class="col-12 text-right">
-                                                <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Unlock</button>
-                                            </div>
-                                        </div>
-    
-                                    </form>
-                                </div>
-            
-                            </div>
-                        </div>
-                        <div class="mt-5 text-center">
-                            <p>© 2021 Onelab. Crafted with <i class="mdi mdi-heart text-danger"></i> by Krad</p>
-                        </div>
-
-                    </div>
-                </div>
-        </div>
-
     </div>
 </template>
 
@@ -270,55 +222,13 @@ export default {
         checked(count){
             (count > 0) ? this.count = false : this.count = true;
         },
-        
-        validateToken(){
-            let toks = localStorage.getItem('api_token');
 
-            axios.get('https://one.main/api/check',{
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization' : `Bearer ${toks}`
-                }
-            })
-            .then(response => {
-                this.referral = false;
-            })
-           .catch(error => {
-                if (error.response.status == 401) {
-                    this.referral = true;
-                }
-            });
-        },
-
-        loginapi(){
-            axios.post('https://one.main/api/login', {
-                email: this.email,
-                password: this.password,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if(response.data.status_code == 200){
-                    Vue.$toast.success('<strong>Login Successful!</strong>', {
-                        position: 'bottom-left'
-                    });
-                    localStorage.setItem('api_token', response.data.access_token);
-                    // let toks = localStorage.getItem('api_token');
-                    this.referral = false;
-                }else{
-                    Vue.$toast.error('<strong>'+response.data.message +'</strong>', {
-                        position: 'bottom-left'
-                    });
-                }
-            })
-            .catch(error => {
-                if (error.response.status == 422) {
-                    this.errors = error.response.data.errors;
-                }
-            });
+        check(value){
+            if(value == true){
+                this.referral = true;
+            }
         }
-
+        
     },  components: { Multiselect }
 }
 </script>

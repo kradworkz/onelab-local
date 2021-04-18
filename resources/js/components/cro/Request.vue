@@ -111,7 +111,7 @@
                                     <tbody>
                                         <tr v-for="request in requests" v-bind:key="request.id">
                                             <td>{{request.reference}}</td>
-                                            <td class="text-center">{{ (refered == false) ? request.customer : request.content }}</td>
+                                            <td class="text-center">{{request.customer}}</td>
                                             <td class="text-center">
                                                 <span v-if="request.status == 'Pending'" class="badge badge-lg badge-warning">Pending</span>
                                                 <span v-else-if="request.status == 'Completed'" class="badge badge-lg badge-success">Completed</span>
@@ -192,8 +192,7 @@
                 edit: false,
                 type: '',
                 from: '',
-                selected : 1,
-                refered : false
+                selected : 1
             }
         },
 
@@ -202,6 +201,7 @@
         },
 
         methods : {
+
             makePagination(meta, links) {
                 let pagination = {
                     current_page: meta.current_page,
@@ -235,13 +235,17 @@
             pick(number){
                 this.selected = number;
                 this.type = number;
-                (number != 0) ? this.fetch() : this.$parent.validateToken();
+                if(number != 0){
+                    this.fetch()
+                }else{
+                    this.$parent.validateToken();
+                    this.requests = [];
+                } 
                 
             },
 
             fetch(page_url) {
                 let vm = this;
-                this.refered = false;
                 axios.post(this.currentUrl + '/request/cro/request/search', {
                     word: this.keyword,
                     type: this.type,
@@ -294,7 +298,6 @@
                     })
                     .then(response => {
                         this.requests = response.data.data;
-                        this.refered = true;
                     })
                     .catch(err => console.log(err));
                 }
