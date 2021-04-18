@@ -6,6 +6,7 @@ use Auth;
 use App\Models\Agency;
 use App\Models\Request as LabRequest;
 use App\Models\RequestSample;
+use App\Models\RequestReceive;
 use App\Models\ReferralSample;
 use App\Models\RequestAnalysis;
 use App\Models\ReferralAnalysis;
@@ -56,6 +57,11 @@ class RequestController extends Controller
                 $transaction->collection_id = config('app.collection_id');
                 $transaction->save();
             }
+
+            $receive = new RequestReceive;
+            $receive->user_id = Auth::user()->id;
+            $receive->request_id = $data->id;
+            $receive->save();
         }
 
         return new RequestResource($data);
@@ -137,7 +143,6 @@ class RequestController extends Controller
                         'samples' => $req->referralsamples,
                         'analyses' => $analyses
                     ];
-
 
                     try{
                         $response = Http::withToken($token)

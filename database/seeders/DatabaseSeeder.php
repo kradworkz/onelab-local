@@ -71,5 +71,20 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now(),
         ]); 
 
+        \DB::table('conformes')->insert([
+            'name' => 'Referral',
+            'mobile_no' => '00000000000',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]); 
+
+        \DB::table('customer_conformes')->insert([
+            'customer_id' => 1,
+            'conforme_id' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]); 
+
+
     }
 }
