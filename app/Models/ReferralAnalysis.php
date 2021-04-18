@@ -23,7 +23,7 @@ class ReferralAnalysis extends Model
 
     public function sample()
     {
-        return $this->belongsTo('App\Models\RequestSample', 'sample_id', 'id');
+        return $this->belongsTo('App\Models\ReferralSample', 'sample_id', 'id');
     }
 
     public function getUpdatedAtAttribute($value)

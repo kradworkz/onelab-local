@@ -1,11 +1,11 @@
 <template>
 <div>
     <div class="row">
-        <div class="col-xl-6">
+        <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="media">
                                 <div class="mr-3">
                                     <img :src="currentUrl+'/images/avatars/'+profile.avatar" alt="" class="avatar-md rounded-circle img-thumbnail">
@@ -18,10 +18,29 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="text-lg-right mt-4 mt-lg-0">
-                                    <p class="text-muted text-truncate mb-2 mt-2">Received Samples</p>
-                                    <h5 class="mb-0">48</h5>
+                        <div class="col-lg-4 align-self-center">
+                            <div class="text-lg-center mt-4 mt-lg-0">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">Referral Requests</p>
+                                            <h5 class="mb-0">48</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">Local Requests</p>
+                                            <h5 class="mb-0">40</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">Clients</p>
+                                            <h5 class="mb-0">18</h5>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

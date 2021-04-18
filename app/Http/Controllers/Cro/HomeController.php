@@ -18,6 +18,8 @@ class HomeController extends Controller
         $samples = \DB::table('request_samples')
         ->selectRaw('sampletype_id,list_sample_tests.name, count(sampletype_id) as total')
         ->join('list_sample_tests', 'request_samples.sampletype_id', '=', 'list_sample_tests.id')
+        ->join('requests', 'request_samples.request_id', '=', 'requests.id')
+        ->where('requests.status','Completed')
         ->groupBy('sampletype_id','list_sample_tests.name')
         ->orderBy('total','DESC')->take(10)->get();
 
@@ -25,6 +27,7 @@ class HomeController extends Controller
         ->selectRaw('testservice_id,list_sample_tests.name, count(testservice_id) as total')
         ->join('request_analyses', 'request_analyses.testservice_id', '=', 'list_test_services.id')
         ->join('list_sample_tests', 'list_sample_tests.id', '=', 'list_test_services.testname_id')
+        ->where('request_analyses.status','Completed')
         ->groupBy('testservice_id','list_sample_tests.name')
         ->orderBy('total','DESC')->take(10)->get();
 

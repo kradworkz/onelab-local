@@ -71,7 +71,10 @@ class RequestController extends Controller
         ->where(function ($query) use ($keyword) {
             $query->where('reference', 'LIKE', '%'.$keyword.'%')
                 ->orWhereHas('customer',function($query) use ($keyword) {
-                $query->where('address', 'LIKE', '%'.$keyword.'%');
+                $query->where('address', 'LIKE', '%'.$keyword.'%')
+                ->orWhereHas('addressable',function($query) use ($keyword) {
+                    $query->where('name', 'LIKE', '%'.$keyword.'%');
+                });
             });
         })
         ->orderBy('id','DESC')->paginate(10);

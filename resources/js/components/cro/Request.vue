@@ -15,10 +15,56 @@
                                 <div class="mail-list mt-4">
                                     <a v-for="dd in dropdownlists" v-bind:key="dd.id" @click="pick(dd.id)" :class="{active:selected == dd.id}"><i class="mdi mdi-adjust mr-2"></i> {{dd.name}} </a>
                                 </div>
-                                <!-- <h6 class="mt-3">PSTC</h6>
-                                <div class="mail-list mt-2">
-                                   <a v-for="dd in dropdownlists" v-bind:key="dd.id" @click="pick(dd.id)" :class="{active:selected == dd.id}"><i class="mdi mdi-adjust mr-2"></i> {{dd.name}} </a>
-                                </div> -->
+                               
+                                    
+                                    <div class="mt-4">
+                                        <div class="card border shadow-none mb-2">
+                                            <a href="javascript: void(0);" class="text-body">
+                                                <div class="p-2">
+                                                    <div class="d-flex">
+                                                        <div class="avatar-xs align-self-center mr-2">
+                                                            <div class="avatar-title rounded bg-transparent text-success font-size-20">
+                                                                <i class="mdi mdi-image"></i>
+                                                            </div>
+                                                        </div>
+    
+                                                        <div class="overflow-hidden mr-auto">
+                                                            <h5 class="font-size-13 text-truncate mb-1">Images</h5>
+                                                            <p class="text-muted text-truncate mb-0">176 Files</p>
+                                                        </div>
+    
+                                                        <div class="ml-2">
+                                                            <p class="text-muted">6 GB</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="card border shadow-none mb-2">
+                                            <a href="javascript: void(0);" class="text-body">
+                                                <div class="p-2">
+                                                    <div class="d-flex">
+                                                        <div class="avatar-xs align-self-center mr-2">
+                                                            <div class="avatar-title rounded bg-transparent text-danger font-size-20">
+                                                                <i class="mdi mdi-play-circle-outline"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="overflow-hidden mr-auto">
+                                                            <h5 class="font-size-13 text-truncate mb-1">Video</h5>
+                                                            <p class="text-muted text-truncate mb-0">45 Files</p>
+                                                        </div>
+
+                                                        <div class="ml-2">
+                                                            <p class="text-muted">4.1 GB</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                               
                             </div>
                         </div>
                     </div>
