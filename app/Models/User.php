@@ -32,6 +32,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\RequestAnalysisTag', 'user_id');
     }
 
+    public function receive()
+    {
+        return $this->hasMany('App\Models\RequestReceive', 'user_id');
+    }
+
     public function customer()
     {
         return $this->hasMany('App\Models\Customer', 'user_id');

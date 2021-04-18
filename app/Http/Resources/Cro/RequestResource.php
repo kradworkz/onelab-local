@@ -24,6 +24,7 @@ class RequestResource extends JsonResource
             'laboratory_id' => $this->laboratory->id,
             'purpose' => $this->purpose->name,
             'from' => $this->from->name,
+            'receive' => $this->receive->user->profile->firstname.' '.$this->receive->user->profile->lastname,
             'modeofrelease' => $this->modeofrelease->name,
             'discount' => $this->discount->name.' ('.$this->discount->percentage.'%)',
             'percentage' => $this->discount->percentage,

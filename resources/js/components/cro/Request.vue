@@ -14,6 +14,7 @@
                                 <!-- <h6 class="mt-3">In House</h6> -->
                                 <div class="mail-list mt-4">
                                     <a v-for="dd in dropdownlists" v-bind:key="dd.id" @click="pick(dd.id)" :class="{active:selected == dd.id}"><i class="mdi mdi-adjust mr-2"></i> {{dd.name}} </a>
+                                    <a @click="pick(0)" :class="{active:selected == 0}"><i class="mdi mdi-adjust mr-2"></i> Referrer </a>
                                 </div>
                                
                                     
@@ -110,7 +111,7 @@
                                     <tbody>
                                         <tr v-for="request in requests" v-bind:key="request.id">
                                             <td>{{request.reference}}</td>
-                                            <td class="text-center">{{request.customer}}</td>
+                                            <td class="text-center">{{ (refered == false) ? request.customer : request.content }}</td>
                                             <td class="text-center">
                                                 <span v-if="request.status == 'Pending'" class="badge badge-lg badge-warning">Pending</span>
                                                 <span v-else-if="request.status == 'Completed'" class="badge badge-lg badge-success">Completed</span>
@@ -187,10 +188,12 @@
                 dropdownlists: [],
                 dropdownlists2: [],
                 selectrequest: {},
+                referrers: [],
                 edit: false,
                 type: '',
                 from: '',
-                selected : 1
+                selected : 1,
+                refered : false
             }
         },
 
@@ -232,11 +235,13 @@
             pick(number){
                 this.selected = number;
                 this.type = number;
-                this.fetch();
+                (number != 0) ? this.fetch() : this.$parent.validateToken();
+                
             },
 
             fetch(page_url) {
                 let vm = this;
+                this.refered = false;
                 axios.post(this.currentUrl + '/request/cro/request/search', {
                     word: this.keyword,
                     type: this.type,
@@ -275,6 +280,24 @@
             onChange(from){
                 this.from = from;
                 this.fetch();
+            },
+
+            check(value){
+                if(value == true){
+                    let toks = localStorage.getItem('api_token');
+
+                    axios.get('https://one.main/api/requests/11',{
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization' : `Bearer ${toks}`
+                        }
+                    })
+                    .then(response => {
+                        this.requests = response.data.data;
+                        this.refered = true;
+                    })
+                    .catch(err => console.log(err));
+                }
             }
 
         }, components: { Multiselect }

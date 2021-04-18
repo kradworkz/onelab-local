@@ -63,7 +63,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">Received By :</th>
-                                        <td>{{ viewrequest.discount }}</td>
+                                        <td>{{ viewrequest.receive }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -230,19 +230,17 @@ export default {
     },
 
     methods : {
-        fetch() 
-        {
+        fetch(){
             axios.get(this.currentUrl + '/request/cro/request/'+this.reqid)
             .then(response => {
                 this.viewrequest = response.data.data;
-                (this.viewrequest.type == 'Referral') ? this.validateToken() : this.referral = false;
+                (this.viewrequest.type == 'Referral') ? this.$parent.validateToken() : this.referral = false;
             })
             .catch(err => console.log(err));
         },
 
         save(){
-
-            (this.viewrequest.type == 'Referral') ? this.validateToken() : this.referral = false;
+            (this.viewrequest.type == 'Referral') ?  this.$parent.validateToken() : this.referral = false;
 
             axios.post(this.currentUrl + '/request/cro/request/update', {
                 id: this.reqid,

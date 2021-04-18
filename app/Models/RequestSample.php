@@ -24,7 +24,6 @@ class RequestSample extends Model
         return $this->hasMany('App\Models\ReferralAnalysis', 'sample_id');
     }
 
-
     public function package()
     {
         return $this->hasMany('App\Models\RequestSamplePackage', 'sample_id');

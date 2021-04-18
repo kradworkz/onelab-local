@@ -55,4 +55,62 @@ Vue.component('analyst-samples', require('./components/analyst/Sample.vue').defa
 
 const app = new Vue({
     el: '#app',
+    data(){
+        return {
+            currentUrl: window.location.origin,
+            errors: [],
+            email: '',
+            password: '',
+        }
+    },
+    methods: {
+        validateToken(){
+            let toks = localStorage.getItem('api_token');
+
+            axios.get('https://one.main/api/check',{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization' : `Bearer ${toks}`
+                }
+            })
+            .then(response => {
+                console.log(response);
+                this.$refs.apiconnection.check(true);
+            })
+           .catch(error => {
+                if (error.response.status == 401) {
+                    this.$refs.apiconnection.check(false);
+                }
+            });
+        },
+
+        loginapi(){
+            axios.post('https://one.main/api/login', {
+                email: this.email,
+                password: this.password,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if(response.data.status_code == 200){
+                    Vue.$toast.success('<strong>Login Successful!</strong>', {
+                        position: 'bottom-left'
+                    });
+                    localStorage.setItem('api_token', response.data.access_token);
+                    // let toks = localStorage.getItem('api_token');
+                    this.referral = false;
+                }else{
+                    Vue.$toast.error('<strong>'+response.data.message +'</strong>', {
+                        position: 'bottom-left'
+                    });
+                }
+            })
+            .catch(error => {
+                if (error.response.status == 422) {
+                    this.errors = error.response.data.errors;
+                }
+            });
+        }
+    }
 });

@@ -17,6 +17,6 @@
             </div>
         </div>
 
-        <requests agency="{{$agency->code}}"></requests>
+        <requests agency="{{$agency->code}}" ref="apiconnection"></requests>
        
 @endsection

@@ -134,7 +134,7 @@ class RequestController extends Controller
                             'conforme' => $req->conforme->name,
                             'conforme_mobile' => $req->conforme->mobile_no,
                         ],
-                        'samples' => $req->samples,
+                        'samples' => $req->referralsamples,
                         'analyses' => $analyses
                     ];
 

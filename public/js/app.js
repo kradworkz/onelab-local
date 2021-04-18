@@ -6000,6 +6000,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['agency'],
@@ -6013,10 +6014,12 @@ __webpack_require__.r(__webpack_exports__);
       dropdownlists: [],
       dropdownlists2: [],
       selectrequest: {},
+      referrers: [],
       edit: false,
       type: '',
       from: '',
-      selected: 1
+      selected: 1,
+      refered: false
     };
   },
   created: function created() {
@@ -6059,12 +6062,13 @@ __webpack_require__.r(__webpack_exports__);
     pick: function pick(number) {
       this.selected = number;
       this.type = number;
-      this.fetch();
+      number != 0 ? this.fetch() : this.$parent.validateToken();
     },
     fetch: function fetch(page_url) {
       var _this3 = this;
 
       var vm = this;
+      this.refered = false;
       axios.post(this.currentUrl + '/request/cro/request/search', {
         word: this.keyword,
         type: this.type,
@@ -6102,6 +6106,24 @@ __webpack_require__.r(__webpack_exports__);
     onChange: function onChange(from) {
       this.from = from;
       this.fetch();
+    },
+    check: function check(value) {
+      var _this4 = this;
+
+      if (value == true) {
+        var toks = localStorage.getItem('api_token');
+        axios.get('https://one.main/api/requests/11', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer ".concat(toks)
+          }
+        }).then(function (response) {
+          _this4.requests = response.data.data;
+          _this4.refered = true;
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      }
     }
   },
   components: {
@@ -7613,7 +7635,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get(this.currentUrl + '/request/cro/request/' + this.reqid).then(function (response) {
         _this.viewrequest = response.data.data;
-        _this.viewrequest.type == 'Referral' ? _this.validateToken() : _this.referral = false;
+        _this.viewrequest.type == 'Referral' ? _this.$parent.validateToken() : _this.referral = false;
       })["catch"](function (err) {
         return console.log(err);
       });
@@ -7621,7 +7643,7 @@ __webpack_require__.r(__webpack_exports__);
     save: function save() {
       var _this2 = this;
 
-      this.viewrequest.type == 'Referral' ? this.validateToken() : this.referral = false;
+      this.viewrequest.type == 'Referral' ? this.$parent.validateToken() : this.referral = false;
       axios.post(this.currentUrl + '/request/cro/request/update', {
         id: this.reqid,
         token: localStorage.getItem('api_token')
@@ -8889,7 +8911,64 @@ Vue.component('finance', __webpack_require__(/*! ./components/finance/Home.vue *
 Vue.component('analyst', __webpack_require__(/*! ./components/analyst/Home.vue */ "./resources/js/components/analyst/Home.vue").default);
 Vue.component('analyst-samples', __webpack_require__(/*! ./components/analyst/Sample.vue */ "./resources/js/components/analyst/Sample.vue").default);
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  data: function data() {
+    return {
+      currentUrl: window.location.origin,
+      errors: [],
+      email: '',
+      password: ''
+    };
+  },
+  methods: {
+    validateToken: function validateToken() {
+      var _this = this;
+
+      var toks = localStorage.getItem('api_token');
+      axios.get('https://one.main/api/check', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer ".concat(toks)
+        }
+      }).then(function (response) {
+        console.log(response);
+
+        _this.$refs.apiconnection.check(true);
+      })["catch"](function (error) {
+        if (error.response.status == 401) {
+          _this.$refs.apiconnection.check(false);
+        }
+      });
+    },
+    loginapi: function loginapi() {
+      var _this2 = this;
+
+      axios.post('https://one.main/api/login', {
+        email: this.email,
+        password: this.password,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function (response) {
+        if (response.data.status_code == 200) {
+          Vue.$toast.success('<strong>Login Successful!</strong>', {
+            position: 'bottom-left'
+          });
+          localStorage.setItem('api_token', response.data.access_token); // let toks = localStorage.getItem('api_token');
+
+          _this2.referral = false;
+        } else {
+          Vue.$toast.error('<strong>' + response.data.message + '</strong>', {
+            position: 'bottom-left'
+          });
+        }
+      })["catch"](function (error) {
+        if (error.response.status == 422) {
+          _this2.errors = error.response.data.errors;
+        }
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -66364,25 +66443,43 @@ var render = function() {
                 _c(
                   "div",
                   { staticClass: "mail-list mt-4" },
-                  _vm._l(_vm.dropdownlists, function(dd) {
-                    return _c(
+                  [
+                    _vm._l(_vm.dropdownlists, function(dd) {
+                      return _c(
+                        "a",
+                        {
+                          key: dd.id,
+                          class: { active: _vm.selected == dd.id },
+                          on: {
+                            click: function($event) {
+                              return _vm.pick(dd.id)
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "mdi mdi-adjust mr-2" }),
+                          _vm._v(" " + _vm._s(dd.name) + " ")
+                        ]
+                      )
+                    }),
+                    _vm._v(" "),
+                    _c(
                       "a",
                       {
-                        key: dd.id,
-                        class: { active: _vm.selected == dd.id },
+                        class: { active: _vm.selected == 0 },
                         on: {
                           click: function($event) {
-                            return _vm.pick(dd.id)
+                            return _vm.pick(0)
                           }
                         }
                       },
                       [
                         _c("i", { staticClass: "mdi mdi-adjust mr-2" }),
-                        _vm._v(" " + _vm._s(dd.name) + " ")
+                        _vm._v(" Referrer ")
                       ]
                     )
-                  }),
-                  0
+                  ],
+                  2
                 ),
                 _vm._v(" "),
                 _vm._m(0)
@@ -66475,7 +66572,13 @@ var render = function() {
                           _c("td", [_vm._v(_vm._s(request.reference))]),
                           _vm._v(" "),
                           _c("td", { staticClass: "text-center" }, [
-                            _vm._v(_vm._s(request.customer))
+                            _vm._v(
+                              _vm._s(
+                                _vm.refered == false
+                                  ? request.customer
+                                  : request.content
+                              )
+                            )
                           ]),
                           _vm._v(" "),
                           _c("td", { staticClass: "text-center" }, [
@@ -69459,7 +69562,7 @@ var render = function() {
                           _vm._v("Received By :")
                         ]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(_vm.viewrequest.discount))])
+                        _c("td", [_vm._v(_vm._s(_vm.viewrequest.receive))])
                       ])
                     ])
                   ])
