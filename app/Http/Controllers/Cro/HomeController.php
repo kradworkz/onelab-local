@@ -14,13 +14,7 @@ use App\Http\Resources\TopResource;
 class HomeController extends Controller
 {
     public function top(){
-
-        $services = \DB::table('requests')
-        ->selectRaw('laboratory_id,dropdown_lists.name, count(laboratory_id) as total')
-        ->join('dropdown_lists', 'requests.laboratory_id', '=', 'dropdown_lists.id')
-        ->groupBy('laboratory_id','dropdown_lists.name')
-        ->orderBy('total','DESC')->take(10)->get();
-
+        
         $samples = \DB::table('request_samples')
         ->selectRaw('sampletype_id,list_sample_tests.name, count(sampletype_id) as total')
         ->join('list_sample_tests', 'request_samples.sampletype_id', '=', 'list_sample_tests.id')
@@ -35,7 +29,6 @@ class HomeController extends Controller
         ->orderBy('total','DESC')->take(10)->get();
 
         $dataSet[] = [
-            'services' => $services,
             'samples'  => $samples,
             'analysis' =>  $analysis,
         ];

@@ -6,6 +6,7 @@ use Auth;
 use App\Models\Agency;
 use App\Models\Request as LabRequest;
 use App\Models\RequestSample;
+use App\Models\ReferralSample;
 use App\Models\RequestAnalysis;
 use App\Models\ReferralAnalysis;
 use App\Models\FinanceTransaction;
@@ -110,7 +111,7 @@ class RequestController extends Controller
 
                 if($req->type_id == config('app.referral_id'))
                 {
-                    $samples = RequestSample::where('request_id',$req->id)->pluck('id');
+                    $samples = ReferralSample::where('request_id',$req->id)->pluck('id');
                     $analyses = ReferralAnalysis::whereIn('sample_id',$samples)->get();
                     
                     $content[] = [
@@ -153,9 +154,6 @@ class RequestController extends Controller
                     } catch(\Exception $e){
                         
                     }
-
-                    
-
 
                 }else{
                     foreach($req->samples as $smpls){

@@ -25,10 +25,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $agency_id = config('app.agency');
-        $agency = Agency::where('id',$agency_id)->first();
-      
-        View::share('agency',$agency);
+        if(\Schema::hasTable('agencies')){
+            $agency_id = config('app.agency');
+            $agency = Agency::where('id',$agency_id)->first();
+            View::share('agency',$agency);
+        }
 
         // Activity::saving(function (Activity $activity) {
         //     $activity->properties = $activity->properties->put('agent', [

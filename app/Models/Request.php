@@ -14,6 +14,12 @@ class Request extends Model
         return $this->morphOne('App\Models\Cart', 'cartable');
     }
 
+    public function referral()
+    {
+        return $this->hasOne('App\Models\Referral', 'request_id');
+    }
+
+
     public function samples()
     {
         return $this->hasMany('App\Models\RequestSample', 'request_id');

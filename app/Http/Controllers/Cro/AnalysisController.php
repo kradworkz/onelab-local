@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cro;
 
+use App\Models\ReferralSample;
 use App\Models\RequestSample;
 use App\Models\RequestAnalysis;
 use App\Models\ReferralAnalysis;
@@ -22,11 +23,9 @@ class AnalysisController extends Controller
 {
     public function index($id)
     {   
-        $type_id = config('app.local_id');
         $req = LabRequest::findOrFail($id);
-        $ids = RequestSample::where('request_id',$id)->pluck('id');
-
-        ($req->type_id == $type_id) ? $data = RequestAnalysis::where('is_package',1)->whereIn('sample_id',$ids)->get() : $data = ReferralAnalysis::where('is_package',1)->whereIn('sample_id',$ids)->get();
+        ($req->type_id == config('app.local_id')) ? $ids = RequestSample::where('request_id',$id)->pluck('id') : $ids = ReferralSample::where('request_id',$id)->pluck('id');
+        ($req->type_id == config('app.local_id')) ? $data = RequestAnalysis::where('is_package',1)->whereIn('sample_id',$ids)->get() : $data = ReferralAnalysis::where('is_package',1)->whereIn('sample_id',$ids)->get();
       
         return AnalysesResource::collection($data);
     }
@@ -83,7 +82,7 @@ class AnalysisController extends Controller
             }
 
             $pack = ListPackage::where('id',$request->input('method_id'))->first();
-            $package = new RequestSamplePackage;
+            ($request->input('requesttype') != 'Referral') ? $package = new RequestSamplePackage : $package = new ReferralSamplePackage;
             $package->fee = $pack->fee;
             $package->sample_id = $request->input('sample_id');
             $package->package_id =$request->input('method_id');
@@ -91,8 +90,6 @@ class AnalysisController extends Controller
 
             return new DefaultResource($package);
         }
-        
-      
     }
 
     public function destroy(Request $request)

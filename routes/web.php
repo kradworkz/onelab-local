@@ -116,6 +116,7 @@ Route::prefix('request')->group(function () {
         Route::get('/samples/{id}', 'Cro\SampleController@index');
         Route::post('/sample/store', 'Cro\SampleController@store');
         Route::post('/sample/destroy', 'Cro\SampleController@destroy');
+        Route::get('/sampletesting', 'Cro\SampleController@index');
 
         Route::get('/analyses/{id}', 'Cro\AnalysisController@index');
         Route::get('/analyses/packages/{id}', 'Cro\AnalysisController@package');
